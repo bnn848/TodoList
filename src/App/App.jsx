@@ -5,6 +5,7 @@ import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
 
+// cloneの練習です
 // ----- nanoidをimportしkeyとして使う
 const {nanoid} = require('nanoid')
 
