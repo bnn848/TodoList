@@ -12,8 +12,3 @@ export const GlobalStyle = createGlobalStyle`
     user-select: none;
   }
 `;
-
-// export const Wrapper = styled.div`
-//   border-right: 1px solid #e09200;
-// `;
-

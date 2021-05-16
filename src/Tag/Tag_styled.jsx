@@ -22,6 +22,6 @@ export const Wrapper = styled.div`
 
   dd {
     text-align: left;
-    display: none;
+    /* display: none; */
   }
 `;

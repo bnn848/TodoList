@@ -22,6 +22,7 @@ const App = () => {
       window.alert('必要事項を入力してください');
       return;
     }
+
     // ----- setTodosを実行
     setTodos([
       ...todos,
@@ -70,7 +71,6 @@ const App = () => {
       setInputTitle(todos[index].title);
       setInputText(todos[index].content);
       setCategory(todos[index].category);
-      
     }
 
   // ----- [toggle] : purgeのためisDoneを切り替える
