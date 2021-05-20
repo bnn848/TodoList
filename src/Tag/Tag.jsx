@@ -1,31 +1,33 @@
 import React from 'react'
+import Work from './TagsItems/Work'
+import Shopping from './TagsItems/Shopping'
+import Hobby from './TagsItems/Hobby'
 import {Wrapper} from './Tag_styled'
 
-const Tag = () => {
+const Tag = ({setCategory}) => {
 
+  // const [showWork, setShowWork] = useState(false);
+  // const [showShopping, setShowShopping] = useState(false);
+  // const [showHobby, setShowHobby] = useState(false);
+  
   return (
     <Wrapper>
-      <h3>Category</h3>
-      <dl>
-        <div>
-          <dt>Work</dt>
-          <dd>Item1</dd>
-          <dd>Item2</dd>
-          <dd>Item3</dd>
-        </div>
-        <div>
-          <dt>Shopping</dt>
-          <dd>Item1</dd>
-          <dd>Item2</dd>
-          <dd>Item3</dd>
-        </div>
-        <div>
-          <dt>Hobby</dt>
-          <dd>Item1</dd>
-          <dd>Item2</dd>
-          <dd>Item3</dd>
-        </div>
-      </dl>
+      <h3 onClick={() => setCategory('')}>Category</h3>
+      <dt onClick={() => {
+        // setShowWork(!showWork)
+        setCategory('work')
+        }}>Work</dt>
+      <Work />
+      <dt onClick={() => {
+        // setShowShopping(!showShopping)
+        setCategory('shopping')
+      }}>Shopping</dt>
+      <Shopping />
+      <dt onClick={() => {
+        // setShowHobby(!showHobby)
+        setCategory('hobby')
+      }}>Hobby</dt>
+      <Hobby />
     </Wrapper>
   );
 }

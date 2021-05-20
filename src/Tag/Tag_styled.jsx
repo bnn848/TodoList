@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  border-bottom: 1px solid #e09200;
 
   h3 {
     width: 300px;
@@ -18,10 +19,11 @@ export const Wrapper = styled.div`
     color: #e09200;
     border-bottom: 1px solid #e09200;
     cursor: pointer;
-  }
+
+    }
 
   dd {
     text-align: left;
-    /* display: none; */
   }
+
 `;

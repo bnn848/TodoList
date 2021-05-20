@@ -5,7 +5,7 @@ const Form = ({
   addTodo, purge,
   inputTitle, setInputTitle,
   inputText, setInputText,
-  category, setCategory
+  category, setCategory,
   }) => {
 
   return (
@@ -47,6 +47,8 @@ const Form = ({
       <div id="btn">
       <button onClick={addTodo}>Add</button>
       <button onClick={purge}>Purge</button>
+        <div>
+        </div>
       </div>
     </Wrapper>
   );

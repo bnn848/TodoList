@@ -1,20 +1,21 @@
-import React from 'react'
-import Item from './Item/Item'
-import {Wrapper} from './ItemList_styled'
+import React, {useContext}  from 'react'
+// import Context from '../App/App'
+import Data from './Data/Data'
+import {Wrapper} from './DataBase_styled'
 
-const ItemList = ({todos, toggleIsDone, deleteTodo, edit}) => {
+const DataBase = ({todos, deleteTodo, edit}) => {
+  // const {todos} = useContext(Context);
 
   return (
     <Wrapper>
-    <h3>-Categorized-</h3>
+    <h3>-Data Base-</h3>
     <ul>
-      {todos.map((todo, index) => {
+      {todos.map((todo) => {
         return (
-          <Item
-            index={index}
+          <Data
+            id={todo.id}
             key={todo.id}
             todo={todo}
-            toggleIsDone={toggleIsDone}
             deleteTodo={deleteTodo}
             edit={edit}
           />
@@ -25,7 +26,7 @@ const ItemList = ({todos, toggleIsDone, deleteTodo, edit}) => {
   );
 }
 
-export default ItemList;
+export default DataBase;
 
 // // // -----keyがindexではダメな理由がよく分かるサイト
 // // // https://zenn.dev/luvmini511/articles/f7b22d93e9c182

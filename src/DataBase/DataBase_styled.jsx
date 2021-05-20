@@ -2,11 +2,7 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   list-style: none;
-  position: absolute;
-  top: 10px;
-  left: 25vw;
-  font-size: 12px;
-
+  
   h3 {
     font-style: italic;
   }

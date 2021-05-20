@@ -1,17 +1,45 @@
-import React,{useState} from 'react'
+import React,{useState, createContext} from 'react'
 import Header from '../Header/Header'
 import ItemList from '../ItemList/ItemList'
+import DataBase from '../DataBase/DataBase'
 import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
 
-// cloneの練習です
+// ----- useContextでデータを渡す
+// export const Context = createContext();
+
 // ----- nanoidをimportしkeyとして使う
 const {nanoid} = require('nanoid')
 
 const App = () => {
   // const[変数, 変数を更新する関数] = useState(初期値)
-  const [todos, setTodos] = useState([]) // ItemList
+  const [todos, setTodos] = useState([
+    {
+        id: '111112',
+        title: 'サンプル1',
+        content: '仕事じゃないんだよ',
+        category: 'work',
+        time: '2021/05/19',
+        isDone: false,
+      },
+    {
+        id: '111111',
+        title: 'サンプル2',
+        content: '仕事だよ',
+        category: 'work',
+        time: '2021/05/19',
+        isDone: false,
+      },
+    {
+        id: '111113',
+        title: 'サンプル3',
+        content: 'マフラー編む',
+        category: 'shopping',
+        time: '2021/05/19',
+        isDone: false,
+      },
+    ]) // ItemList
   const [inputTitle, setInputTitle] = useState("") // Title
   const [inputText, setInputText] = useState("") // Content
   const [category, setCategory] = useState("work") // Category
@@ -39,40 +67,26 @@ const App = () => {
     // フォームの中をクリアする
     setInputTitle('');
     setInputText('');
-    setCategory("work"); // 初期値をselectedにしたがうまくいかなかった
-    
-    // <疑問>ここでconsole.log()したら入力後のTodosを取得できると思ったが、setTodoされる前の配列を取得してしまう。
-    console.log(todos);
+    setCategory(''); // 初期値をselectedにしたがうまくいかなかった
   }
   
   // ----- [delete] : Itemを一つ削除する
   // todoのidを引数で参照する
   // Item.jsxのonClickで実引数todo.idを取る必要がある
-  // const deleteTodo = (id) => {
-    //   const newTodos = todos.filter(todo => todo.id !== id)
-    //   setTodos(newTodos);
-    // }
+  const deleteTodo = (id) => {
+      const newTodos = todos.filter(todo => todo.id !== id)
+      setTodos(newTodos);
+    }
     
     // ================↑↑↑↑=====================
     // slice()で記述するパターン
     // slice(配列の開始位置, 配列の終了位置);
-    // todosのindexを取得する必要がある
-    // <疑問>indexは配列に自動で付与されるものだからItem.jsxのItemの引数にindexを取る必要がないと思ったが、errorとなった。
-    // <疑問2>todosは配列でtodos.splice()でいいと思ったが、[...todo]で配列化しないとダメだった。
-    const deleteTodo = (index) => {
-      const newTodos = [...todos];
-      newTodos.splice(index, 1);
-      setTodos(newTodos);
-    }
+    // const deleteTodo = (index) => {
+    //   const newTodos = [...todos];
+    //   newTodos.splice(index, 1);
+    //   setTodos(newTodos);
+    // }
     // ==============================================
-    
-    // ----- [changeTodo] : 選択したItemの情報をset~~に渡す
-    // App.jsx 37~40を参考に、Formに戻す処理をしたかった
-    const changeTodo = (index) => {
-      setInputTitle(todos[index].title);
-      setInputText(todos[index].content);
-      setCategory(todos[index].category);
-    }
 
   // ----- [toggle] : purgeのためisDoneを切り替える
   // map()でclickしたtodoを探し、isDoneを!isDoneにする
@@ -89,10 +103,14 @@ const App = () => {
 
   // ----- [purge] : 選択したItemを一括削除する
   const purge = () => {
+    console.log(todos)
     if (!window.confirm('チェックしたToDoを削除しますか？')) {
       return;
     }
     const newTodos = todos.filter(todo => !todo.isDone)
+    if (newTodos.length === todos.length) {
+      alert('チェックされたアイテムがありません。')
+    }
     setTodos(newTodos);
   }
 
@@ -109,8 +127,29 @@ const App = () => {
     return (`${y}/${m}/${d}  ${h}:${min}`);
   }
 
+  /* 編集機能 */
+  const edit = (id) => {
+    if (!inputTitle || !inputText) {
+      window.alert('入力してください');
+      return;
+    }
+    setTodos(
+      todos.map(todo=>{
+        if(todo.id !== id){
+          return todo
+        } else {
+          todo.title = inputTitle
+          todo.content = inputText
+          todo.category = category
+          return todo
+        }
+      })
+    )
+  }
+
   return (
-    <>
+    // <Context.Provider value={todos}>
+      <>
       <GlobalStyle />
       <section>
       <Header />
@@ -122,17 +161,28 @@ const App = () => {
       />
         <Tag
           todos={todos}
+          setCategory={setCategory}
+        />
+      </section>
+      <section>
+        <DataBase
+          todos={todos}
+          deleteTodo={deleteTodo}
+          edit={edit}
         />
       </section>
       <section>
         <ItemList
-          todos={todos}
+          todos={todos.filter(todo => {
+            return todo.category === category
+          })}
           toggleIsDone={toggleIsDone}
           deleteTodo={deleteTodo}
-          changeTodo={changeTodo}
+          edit={edit}
         />
       </section>
-    </>
+      </>
+    // </Context.Provider>
   );
 }
 

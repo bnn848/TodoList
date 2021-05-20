@@ -1,10 +1,9 @@
 import React from 'react'
-import {Li} from './Item_styled'
+import {Li} from './Data_styled'
 
-const Item = ({todo, toggleIsDone, deleteTodo, edit, index}) => {
+const Data = ({todo, deleteTodo, edit}) => {
   return (
     <Li>
-      <input type="checkbox" onChange={() => toggleIsDone(todo.id)}/>
       <span>{todo.title}</span>
       <span> : {todo.content}</span>
       <span>[{todo.category}]</span>
@@ -20,4 +19,4 @@ const Item = ({todo, toggleIsDone, deleteTodo, edit, index}) => {
   );
 }
 
-export default Item;
+export default Data;

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const Li = styled.li`
   display: flex;
   height: 30px;
-  width: 90%;
   align-items: center;
   list-style: none;
 
@@ -12,6 +11,6 @@ export const Li = styled.li`
   }
 
   #Btn {
-    margin: 0 0 0 auto;
+    margin-left: auto;
   }
 `;
