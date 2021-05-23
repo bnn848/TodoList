@@ -6,6 +6,8 @@ import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
 
+// developです
+
 // ----- useContextにデータを渡す
 export const Context = createContext();
 
@@ -38,13 +40,13 @@ const App = () => {
         category: 'shopping',
         time: '2021/05/19',
         isDone: false,
-      },
+    },
     ]) // ItemList
   const [inputTitle, setInputTitle] = useState("") // Title
   const [inputText, setInputText] = useState("") // Content
   const [category, setCategory] = useState("work") // Category
   const [sortCategory, setSortCategory] = useState("work") // Sort
-  const [keepId, setKeepId] = useState("") // Sort
+  const [keepId, setKeepId] = useState("") // edit
 
   // ----- [add] : input値をItemに追加する
   const addTodo = () => {
@@ -132,14 +134,11 @@ const App = () => {
 
   // ----- [sort] : カテゴリBtn押すと指定CategoryのItemのみ表示する
     const sortTodos = todos.filter( todo =>
-      todo.category === sortCategory
-    )
+        todo.category === sortCategory
+      )
 
   /* 編集機能 */
   const edit = (id) => {
-    // idのtitleとtextを取得
-    // find
-    
     const getTodo = todos.find(todo => {
       // trueのものだけを取る
       return (
@@ -209,6 +208,7 @@ const App = () => {
 
     </Context.Provider>
   );
+
 }
 
 export default App;

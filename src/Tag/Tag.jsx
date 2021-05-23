@@ -3,19 +3,19 @@ import {Context} from '../App/App'
 import {Wrapper} from './Tag_styled'
 
 const Tag = () => {
-  const {setSortCategory} = useContext(Context);
+  const {sort} = useContext(Context);
   
   return (
     <Wrapper>
-      <h3 onClick={() => setSortCategory('')}>Category</h3>
+      <h3 onClick={() => sort('')}>Category</h3>
       <dt onClick={() => {
-        setSortCategory('work')
+        sort('work')
       }}>work</dt>
       <dt onClick={() => {
-        setSortCategory('shopping')
+        sort('shopping')
       }}>Shopping</dt>
       <dt onClick={() => {
-        setSortCategory('hobby')
+        sort('hobby')
       }}>Hobby</dt>
     </Wrapper>
   );
