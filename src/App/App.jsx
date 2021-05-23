@@ -6,8 +6,8 @@ import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
 
-// ----- useContextでデータを渡す
-// export const Context = createContext();
+// ----- useContextにデータを渡す
+export const Context = createContext();
 
 // ----- nanoidをimportしkeyとして使う
 const {nanoid} = require('nanoid')
@@ -43,6 +43,8 @@ const App = () => {
   const [inputTitle, setInputTitle] = useState("") // Title
   const [inputText, setInputText] = useState("") // Content
   const [category, setCategory] = useState("work") // Category
+  const [sortCategory, setSortCategory] = useState("work") // Sort
+  const [keepId, setKeepId] = useState("") // Sort
 
   // ----- [add] : input値をItemに追加する
   const addTodo = () => {
@@ -54,7 +56,6 @@ const App = () => {
 
     // ----- setTodosを実行
     setTodos([
-      ...todos,
       {
         id: nanoid(),
         title: inputTitle,
@@ -62,12 +63,14 @@ const App = () => {
         category: category,
         time: postTime(),
         isDone: false,
-      }
+      },
+      ...todos
     ]);
     // フォームの中をクリアする
     setInputTitle('');
     setInputText('');
-    setCategory(''); // 初期値をselectedにしたがうまくいかなかった
+    setSortCategory('work');
+    setKeepId('');
   }
   
   // ----- [delete] : Itemを一つ削除する
@@ -127,62 +130,84 @@ const App = () => {
     return (`${y}/${m}/${d}  ${h}:${min}`);
   }
 
+  // ----- [sort] : カテゴリBtn押すと指定CategoryのItemのみ表示する
+    const sortTodos = todos.filter( todo =>
+      todo.category === sortCategory
+    )
+
   /* 編集機能 */
   const edit = (id) => {
-    if (!inputTitle || !inputText) {
-      window.alert('入力してください');
-      return;
+    // idのtitleとtextを取得
+    // find
+    
+    const getTodo = todos.find(todo => {
+      // trueのものだけを取る
+      return (
+        todo.id === id
+        )
+      })
+      setInputTitle(getTodo.title)
+      setInputText(getTodo.content)
+      setCategory(getTodo.category)
+      setKeepId(getTodo.id)
     }
-    setTodos(
-      todos.map(todo=>{
-        if(todo.id !== id){
-          return todo
+    
+    /* update */
+    const update = () => {
+      if (!keepId) { // keepIdが残っている
+        addTodo();
+        return;
+      }
+      
+      const newTodos = todos.map(todo => {
+        if (todo.id === keepId) {
+          
+          todo.title = inputTitle;
+          todo.content = inputText;
+          todo.category = category;
+
+          // -----setTodosで変更箇所をobjectで渡してもできる
+          // {
+            //   ...todo,
+            //   title: inputTitle,
+            //   content: inputText,
+            //   category: category,
+            // }
+            
+            return todo
         } else {
-          todo.title = inputTitle
-          todo.content = inputText
-          todo.category = category
           return todo
         }
+
       })
-    )
+    setTodos(newTodos)
+    setInputTitle('')
+    setInputText('')
+    setCategory('work')
+    setKeepId('')
+    console.log(newTodos)
   }
 
   return (
-    // <Context.Provider value={todos}>
-      <>
+    <Context.Provider value={{
+      todos,
+      inputTitle, setInputTitle, 
+      inputText, setInputText,
+      category, setCategory,
+      sortTodos,
+      sortCategory, setSortCategory,
+      addTodo, edit, deleteTodo, purge, update,
+      toggleIsDone,
+    }}>
+        
       <GlobalStyle />
-      <section>
       <Header />
-      <Form
-        addTodo={addTodo} purge={purge}
-        inputTitle={inputTitle} setInputTitle={setInputTitle}
-        inputText={inputText} setInputText={setInputText}
-        category={category}  setCategory={setCategory}
-      />
-        <Tag
-          todos={todos}
-          setCategory={setCategory}
-        />
-      </section>
-      <section>
-        <DataBase
-          todos={todos}
-          deleteTodo={deleteTodo}
-          edit={edit}
-        />
-      </section>
-      <section>
-        <ItemList
-          todos={todos.filter(todo => {
-            return todo.category === category
-          })}
-          toggleIsDone={toggleIsDone}
-          deleteTodo={deleteTodo}
-          edit={edit}
-        />
-      </section>
-      </>
-    // </Context.Provider>
+      <Form />
+      <Tag />
+      <DataBase />
+      <ItemList sortTodos={sortTodos} />
+
+    </Context.Provider>
   );
 }
 

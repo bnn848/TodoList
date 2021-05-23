@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {Context} from '../../App/App'
 import {Li} from './Data_styled'
 
-const Data = ({todo, deleteTodo, edit}) => {
+const Data = ({todo}) => {
+  const {deleteTodo, edit} = useContext(Context);
+
   return (
     <Li>
       <span>{todo.title}</span>
@@ -9,11 +12,8 @@ const Data = ({todo, deleteTodo, edit}) => {
       <span>[{todo.category}]</span>
       <span>posted at : {todo.time}</span>
       <div id = "Btn">
-        <button onClick={() => 
-          deleteTodo(todo.id)}  // <---idを用いたdeleteTodo
-          // deleteTodo(index)} // <---indexを用いたdeleteTodo
-          >Delete</button>
-        <button onClick={() =>edit(todo.id)}>Edit</button>
+        <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        <button onClick={() => edit(todo.id)}>Edit</button>
       </div>
     </Li>
   );

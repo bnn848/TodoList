@@ -1,33 +1,22 @@
-import React from 'react'
-import Work from './TagsItems/Work'
-import Shopping from './TagsItems/Shopping'
-import Hobby from './TagsItems/Hobby'
+import React, {useContext} from 'react'
+import {Context} from '../App/App'
 import {Wrapper} from './Tag_styled'
 
-const Tag = ({setCategory}) => {
-
-  // const [showWork, setShowWork] = useState(false);
-  // const [showShopping, setShowShopping] = useState(false);
-  // const [showHobby, setShowHobby] = useState(false);
+const Tag = () => {
+  const {setSortCategory} = useContext(Context);
   
   return (
     <Wrapper>
-      <h3 onClick={() => setCategory('')}>Category</h3>
+      <h3 onClick={() => setSortCategory('')}>Category</h3>
       <dt onClick={() => {
-        // setShowWork(!showWork)
-        setCategory('work')
-        }}>Work</dt>
-      <Work />
+        setSortCategory('work')
+      }}>work</dt>
       <dt onClick={() => {
-        // setShowShopping(!showShopping)
-        setCategory('shopping')
+        setSortCategory('shopping')
       }}>Shopping</dt>
-      <Shopping />
       <dt onClick={() => {
-        // setShowHobby(!showHobby)
-        setCategory('hobby')
+        setSortCategory('hobby')
       }}>Hobby</dt>
-      <Hobby />
     </Wrapper>
   );
 }

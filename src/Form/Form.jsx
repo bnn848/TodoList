@@ -1,12 +1,14 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {Context} from '../App/App'
 import {Wrapper} from './Form_styled'
 
-const Form = ({
-  addTodo, purge,
-  inputTitle, setInputTitle,
-  inputText, setInputText,
-  category, setCategory,
-  }) => {
+const Form = () => {
+  const {
+    addTodo, purge, update,
+    inputTitle, setInputTitle,
+    inputText, setInputText,
+    category, setCategory,
+  } = useContext(Context);
 
   return (
     <Wrapper>
@@ -46,6 +48,7 @@ const Form = ({
       {/* -----Add and Purge */}
       <div id="btn">
       <button onClick={addTodo}>Add</button>
+      <button onClick={update}>Update</button>
       <button onClick={purge}>Purge</button>
         <div>
         </div>

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {Context} from '../../App/App'
 import {Li} from './Item_styled'
 
-const Item = ({todo, toggleIsDone, deleteTodo, edit, index}) => {
+const Item = ({todo}) => {
+  const {toggleIsDone, deleteTodo, edit} = useContext(Context);
+  
   return (
     <Li>
       <input type="checkbox" onChange={() => toggleIsDone(todo.id)}/>
@@ -10,10 +13,7 @@ const Item = ({todo, toggleIsDone, deleteTodo, edit, index}) => {
       <span>[{todo.category}]</span>
       <span>posted at : {todo.time}</span>
       <div id = "Btn">
-        <button onClick={() => 
-          deleteTodo(todo.id)}  // <---idを用いたdeleteTodo
-          // deleteTodo(index)} // <---indexを用いたdeleteTodo
-          >Delete</button>
+        <button onClick={() => deleteTodo(todo.id)}>Delete</button>
         <button onClick={() =>edit(todo.id)}>Edit</button>
       </div>
     </Li>

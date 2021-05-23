@@ -1,22 +1,20 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import Context from '../App/App'
 import Item from './Item/Item'
 import {Wrapper} from './ItemList_styled'
 
-const ItemList = ({todos, toggleIsDone, deleteTodo, edit}) => {
+const ItemList = ({sortTodos}) => {
+  // const {sortTodos} = useContext(Context);
 
   return (
     <Wrapper>
     <h3>-Categorized-</h3>
     <ul>
-      {todos.map((todo, index) => {
+      {sortTodos.map(todo => {
         return (
           <Item
-            index={index}
             key={todo.id}
             todo={todo}
-            toggleIsDone={toggleIsDone}
-            deleteTodo={deleteTodo}
-            edit={edit}
           />
           );
         })}
