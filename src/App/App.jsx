@@ -6,6 +6,8 @@ import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
 
+// cloneしてみたい
+
 // ----- useContextにデータを渡す
 export const Context = createContext();
 
