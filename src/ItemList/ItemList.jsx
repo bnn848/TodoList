@@ -1,10 +1,10 @@
 import React, {useContext} from 'react'
-import Context from '../App/App'
+import {Context} from '../App/App'
 import Item from './Item/Item'
 import {Wrapper} from './ItemList_styled'
 
-const ItemList = ({sortTodos}) => {
-  // const {sortTodos} = useContext(Context);
+const ItemList = () => {
+  const {sortTodos} = useContext(Context);
 
   return (
     <Wrapper>

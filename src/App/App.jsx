@@ -6,8 +6,6 @@ import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
 
-// developです
-
 // ----- useContextにデータを渡す
 export const Context = createContext();
 
@@ -68,6 +66,18 @@ const App = () => {
       },
       ...todos
     ]);
+
+    // setTodosで追加した中身をconsoleで確認したい
+    const newTodos = {
+      id: nanoid(),
+      title: inputTitle,
+      content: inputText,
+      category: category,
+      time: postTime(),
+      isDone: false,
+    }
+    console.log(newTodos)
+
     // フォームの中をクリアする
     setInputTitle('');
     setInputText('');
@@ -133,9 +143,12 @@ const App = () => {
   }
 
   // ----- [sort] : カテゴリBtn押すと指定CategoryのItemのみ表示する
-    const sortTodos = todos.filter( todo =>
-        todo.category === sortCategory
-      )
+  const sortTodos = todos.filter( todo =>
+    todo.category === sortCategory
+  )
+
+  console.log(sortTodos)
+  // if (sortTodos === )
 
   /* 編集機能 */
   const edit = (id) => {
@@ -145,6 +158,7 @@ const App = () => {
         todo.id === id
         )
       })
+      console.log(getTodo)
       setInputTitle(getTodo.title)
       setInputText(getTodo.content)
       setCategory(getTodo.category)
@@ -159,8 +173,10 @@ const App = () => {
       }
       
       const newTodos = todos.map(todo => {
-        if (todo.id === keepId) {
-          
+        if (todo.id !== keepId) {
+          return todo
+        } else {
+
           todo.title = inputTitle;
           todo.content = inputText;
           todo.category = category;
@@ -174,12 +190,10 @@ const App = () => {
             // }
             
             return todo
-        } else {
-          return todo
         }
-
       })
     setTodos(newTodos)
+
     setInputTitle('')
     setInputText('')
     setCategory('work')
@@ -204,7 +218,7 @@ const App = () => {
       <Form />
       <Tag />
       <DataBase />
-      <ItemList sortTodos={sortTodos} />
+      <ItemList/>
 
     </Context.Provider>
   );
