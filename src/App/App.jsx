@@ -1,10 +1,11 @@
-import React,{useState, createContext} from 'react'
+import React,{useState,useEffect, createContext} from 'react'
 import Header from '../Header/Header'
 import ItemList from '../ItemList/ItemList'
 import DataBase from '../DataBase/DataBase'
 import Form from '../Form/Form'
 import Tag from '../Tag/Tag'
 import {GlobalStyle} from './App_styled'
+import { firebase } from '../firebase'
 
 // ----- useContextにデータを渡す
 export const Context = createContext();
@@ -13,17 +14,35 @@ export const Context = createContext();
 const {nanoid} = require('nanoid')
 
 const App = () => {
+
+  // firebase.firestore().collection('todos').get()
+  // .then((docs) =>docs.forEach(doc => {
+  //   console.log(doc.id)
+  //   console.log(doc.data())
+  // }))
+  // .catch((error)=>console.log(error))
+
+  /* Firestoreからデータを取得してtodosに入れる */
+  useEffect(() => {
+    firebase.firestore().collection('todos').get()
+    .then((snapshot)=>{
+      const getTodos = snapshot.docs.map(doc => doc.data())
+      console.log(getTodos)
+      setTodos(getTodos)
+    })
+  }, [inputText])
+  
   // const[変数, 変数を更新する関数] = useState(初期値)
   const [todos, setTodos] = useState([
     {
-        id: '111112',
-        title: 'サンプル1',
-        content: '仕事じゃないんだよ',
-        category: 'work',
+      id: '111112',
+      title: 'サンプル1',
+      content: '仕事じゃないんだよ',
+      category: 'work',
         time: '2021/05/19',
         isDone: false,
       },
-    {
+      {
         id: '111111',
         title: 'サンプル2',
         content: '仕事だよ',
@@ -31,7 +50,7 @@ const App = () => {
         time: '2021/05/19',
         isDone: false,
       },
-    {
+      {
         id: '111113',
         title: 'サンプル3',
         content: 'マフラー編む',
@@ -39,13 +58,13 @@ const App = () => {
         time: '2021/05/19',
         isDone: false,
     },
-    ]) // ItemList
+  ]) // ItemList
   const [inputTitle, setInputTitle] = useState("") // Title
   const [inputText, setInputText] = useState("") // Content
   const [category, setCategory] = useState("work") // Category
   const [sortCategory, setSortCategory] = useState("work") // Sort
   const [keepId, setKeepId] = useState("") // edit
-
+  
   // ----- [add] : input値をItemに追加する
   const addTodo = () => {
     // -----必要事項チェックを実行
@@ -53,19 +72,34 @@ const App = () => {
       window.alert('必要事項を入力してください');
       return;
     }
+    
+    // ----- Firestoreに追加する処理(setTodosが不要になる)
+    firebase.firestore().collection('todos').add({
+      id: nanoid(),
+      title: inputTitle,
+      content: inputText,
+      category: category,
+      time: postTime(),
+      isDone: false,
+    })
+      
+    /* update */
+    // firebase.firestore().collection('todos').doc('i9xBV2edrQwIbSV3kHNr').update({
+    //     content: '記念されたADD',
+    // })
 
     // ----- setTodosを実行
-    setTodos([
-      {
-        id: nanoid(),
-        title: inputTitle,
-        content: inputText,
-        category: category,
-        time: postTime(),
-        isDone: false,
-      },
-      ...todos
-    ]);
+    // setTodos([
+    //   {
+    //     id: nanoid(),
+    //     title: inputTitle,
+    //     content: inputText,
+    //     category: category,
+    //     time: postTime(),
+    //     isDone: false,
+    //   },
+    //   ...todos
+    // ]);
 
     // setTodosで追加した中身をconsoleで確認したい
     const newTodos = {
